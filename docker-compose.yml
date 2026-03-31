@@ -1,0 +1,22 @@
+version: '3'
+
+services:
+  web:
+    build: .
+    ports:
+      - "5000:5000"   # ✅ correct format
+    depends_on:
+      - db
+    restart: always
+
+  db:
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: hospital_db
+      MYSQL_USER: hospital_user
+      MYSQL_PASSWORD: Anvii@2602
+    ports:
+      - "3307:3306"   # ✅ correct format
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
