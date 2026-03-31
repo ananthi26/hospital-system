@@ -1,12 +1,14 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <title>Hospital Dashboard</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
 
+<!-- NAVBAR -->
 <div class="navbar">
-    <h3 style="color: white;">🏥 Hospital Dashboard</h3>
+    <h3>🏥 Hospital Dashboard</h3>
     <a href="/logout" class="logout-btn">Logout</a>
 </div>
 
@@ -14,7 +16,8 @@
 
     <h2>Dashboard</h2>
 
-    <!-- ADD PATIENT -->
+    <!-- ===================== PATIENT ===================== -->
+
     <h3>Add Patient</h3>
     <form method="POST" action="/add_patient">
         <input name="name" placeholder="Name" required>
@@ -23,15 +26,18 @@
         <button>Add Patient</button>
     </form>
 
-    <!-- PATIENT LIST -->
     <h3>Patients</h3>
     <ul>
         {% for p in patients %}
-            <li>👤 {{ p[1] }} | Disease: {{ p[3] }}</li>
+            <li>👤 {{ p[1] }} | Age: {{ p[2] }} | Disease: {{ p[3] }}</li>
+        {% else %}
+            <li>No patients found</li>
         {% endfor %}
     </ul>
 
-    <!-- ADD DOCTOR -->
+
+    <!-- ===================== DOCTOR ===================== -->
+
     <h3>Add Doctor</h3>
     <form method="POST" action="/add_doctor">
         <input name="name" placeholder="Doctor Name" required>
@@ -39,14 +45,52 @@
         <button>Add Doctor</button>
     </form>
 
-    <!-- ADD APPOINTMENT -->
+    <h3>Doctors</h3>
+    <ul>
+        {% for d in doctors %}
+            <li>👨‍⚕️ {{ d[1] }} | {{ d[2] }}</li>
+        {% else %}
+            <li>No doctors available</li>
+        {% endfor %}
+    </ul>
+
+
+    <!-- ===================== APPOINTMENT ===================== -->
+
     <h3>Book Appointment</h3>
     <form method="POST" action="/add_appointment">
-        <input name="patient_id" placeholder="Patient ID" required>
-        <input name="doctor_id" placeholder="Doctor ID" required>
+
+        <!-- Dropdown for Patient -->
+        <select name="patient_id" required>
+            <option value="">Select Patient</option>
+            {% for p in patients %}
+                <option value="{{ p[0] }}">{{ p[1] }}</option>
+            {% endfor %}
+        </select>
+
+        <!-- Dropdown for Doctor -->
+        <select name="doctor_id" required>
+            <option value="">Select Doctor</option>
+            {% for d in doctors %}
+                <option value="{{ d[0] }}">{{ d[1] }}</option>
+            {% endfor %}
+        </select>
+
         <input name="date" type="date" required>
+
         <button>Book</button>
     </form>
+
+    <h3>Appointments</h3>
+    <ul>
+        {% for a in appointments %}
+            <li>
+                📅 Patient ID {{ a[1] }} → Doctor ID {{ a[2] }} on {{ a[3] }}
+            </li>
+        {% else %}
+            <li>No appointments found</li>
+        {% endfor %}
+    </ul>
 
 </div>
 

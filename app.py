@@ -27,3 +27,5 @@ app.register_blueprint(appointment_bp)
 
 if __name__ == "__main__":
     app.run(debug=True)
+
+print("DB HOST:", config.MYSQL_HOST)
